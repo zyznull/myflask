@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Hello!</h1>
+<p>{{ current_user.username }}</p>
+{% if current_user.is_authenticated %}
+    <ul class="dropdown-menu">
+        <li><a href="{{ url_for('rechange') }}">Change Password</a></li>
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+    </ul>
+    {% if not current_user.confirmed %}
+        <p>Your Account has not been confirmed</p>
+        <a href = " {{ url_for('resend_confirm') }}">send a new confirm email</a>
+    {% endif %}
+{% endif %}
+{% endblock %}
