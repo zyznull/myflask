@@ -10,7 +10,6 @@ import io
 @app.route('/')
 @app.route('/index')
 def index():
-    print(app.config)
     return render_template("index.html",title = 'Home')
 
 @lm.user_loader
