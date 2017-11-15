@@ -10,6 +10,9 @@ import io
 @app.route('/')
 @app.route('/index')
 def index():
+    auser = User(username = 'zyz',password = '123',email = '362243277@qq.com')
+    token = '123'
+    send_email(auser.email,'Confirm Your Account','confirm',user = auser,token = token)
     return render_template("index.html",title = 'Home')
 
 @lm.user_loader
@@ -68,7 +71,6 @@ def confirm(token):
 @login_required
 def resend_confirm():
     token = current_user.generate_confirmation_token()
-    print(current_user.email)
     send_email(current_user.email,'Confirm Your Account','confirm',user = current_user,token = token)
     flash('A new confirmation email has been sent to you by email')
     return redirect(url_for('index'))
