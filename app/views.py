@@ -1,9 +1,11 @@
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g,current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from app import app, lm,db,mail
 from .forms import LoginForm,SignupForm,RechangeForm
 from .models import User
 from .email import send_email
+from .draw import Recaptcha
+import io
 
 @app.route('/')
 @app.route('/index')
@@ -57,7 +59,7 @@ def confirm(token):
         return redirect(url_for('hello'))
     if current_user.confirm(token):
         flash('You have confirmed your account.Thanks!')
-        return redirect(url_for('hello'))
+        return redirect(url_for('index'))
     else:
         flash('The confirmation link is invalid or has expired')
     return redirect(url_for(index))
@@ -96,6 +98,20 @@ def rechange():
     return render_template('rechange.html',
         title = 'Sign Up',
         form = form)
+
+@app.route('/code', methods=['GET'])
+def generate_code():
+    """生成验证码
+    """
+    ic = Recaptcha(fontColor=(100,211, 90))
+    strs,code_img = ic.generate()
+    session['S_RECAPTCHA']= str(strs)
+    buf = io.BytesIO()
+    code_img.save(buf,'JPEG',quality=70)
+    buf_str = buf.getvalue()
+    response = current_app.make_response(buf_str)
+    response.headers['Content-Type'] = 'image/jpeg'
+    return response
 
 
 

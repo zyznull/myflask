@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Sign In</h1>
+<h1>Log In</h1>
 <form action="" method="post" name="login">
     {{form.hidden_tag()}}
     <p>
@@ -15,7 +15,15 @@
         {{form.password(size = 80)}}<br>
         {% for error in form.password.errors %}
             <span style = "color: red;">[{{ error }}]</span>
-            {% endfor %}<br>
+        {% endfor %}<br>
+         Recaptcha<br>
+        {{form.recaptcha(size=80)}}<br>
+        {% for error in form.recaptcha.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+        <div class="col-sm-3">
+               <img id='recaptcha' src="{{url_for('generate_code')}}"/>
+        </div>
     </p>
     <p>{{form.remember_me}} Remember Me</p>
     <p><input type="submit" value="Sign In"></p>
