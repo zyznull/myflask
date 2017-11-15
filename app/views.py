@@ -10,9 +10,6 @@ import io
 @app.route('/')
 @app.route('/index')
 def index():
-    auser = User(username = 'zyz',password = '123',email = '362243277@qq.com')
-    token = '123'
-    send_email(auser.email,'Confirm Your Account','confirm',user = auser,token = token)
     return render_template("index.html",title = 'Home')
 
 @lm.user_loader
