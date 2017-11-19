@@ -2,21 +2,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Change Password</h1>
+<h1>修改密码</h1>
 <form action="" method="post" name="signup">
     {{form.hidden_tag()}}
     <p>
-        Password:<br>
+        密码:<br>
         {{form.newpassword(size = 80)}}<br>
         {% for error in form.newpassword.errors %}
             <span style = "color: red;">[{{ error }}]</span>
             {% endfor %}<br>
-        Confirm:<br>
+        确认密码:<br>
         {{form.repassword(size = 80)}}<br>
         {% for error in form.repassword.errors %}
             <span style = "color: red;">[{{ error }}]</span>
             {% endfor %}<br>
     </p>
-      <p><input type="submit" value="Sign Up"></p>
+      <p><input type="submit" value="确认修改"></p>
 </form>
 {% endblock %}

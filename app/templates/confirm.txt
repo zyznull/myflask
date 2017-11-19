@@ -1,13 +1,7 @@
-Dear user:
-
-Welcome to Flasky!
-
-To confirm your account please click on the following link:
-
+尊敬的用户，您好
+欢迎注册本网站!
+为了确认您的账户,请将一下链接复制到浏览器
 {{ url_for('confirm', token=token, _external=True) }}
-
-Sincerely,
-
-The Flasky Team
-
-Note: replies to this email address are not monitored.
+请在确认前登陆本网站
+请尽快认证，此次验证仅在一小时内有效
+谢谢您的合作

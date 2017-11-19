@@ -29,9 +29,9 @@ def login():
             if user.verify_password(password):
                 login_user(user,remember = remember_me)
                 return redirect(url_for('hello'))
-            flash('Invalid username or password')
+            flash(u'用户名或密码错误')
             return redirect(url_for('login'))
-        flash('the username not exit')
+        flash(u'未找到该用户')
     return render_template('login.html',
         title = 'Sign In',
         form = form)
@@ -46,8 +46,9 @@ def signup():
         db.session.commit()
         token = user.generate_confirmation_token()
         send_email(user.email,'Confirm Your Account','confirm',user = user,token = token)
-        flash('A confirmation email has been sent to you by email')
-        return redirect(url_for('index'))
+        flash(u'已向您的邮箱发送确认邮件')
+        login_user(user)
+        return redirect(url_for('hello'))
     return render_template('signup.html',
         title = 'Sign Up',
         form = form)
@@ -58,10 +59,10 @@ def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('hello'))
     if current_user.confirm(token):
-        flash('You have confirmed your account.Thanks!')
+        flash(u'认证成功')
         return redirect(url_for('index'))
     else:
-        flash('The confirmation link is invalid or has expired')
+        flash(u'认识失败')
     return redirect(url_for(index))
 
 @app.route('/confirm')
@@ -69,14 +70,14 @@ def confirm(token):
 def resend_confirm():
     token = current_user.generate_confirmation_token()
     send_email(current_user.email,'Confirm Your Account','confirm',user = current_user,token = token)
-    flash('A new confirmation email has been sent to you by email')
+    flash(u'已重新发送确认邮件，请注意查收')
     return redirect(url_for('index'))
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
-    flash('You have been loggged out.')
+    flash('注销成功')
     return redirect(url_for('index'))
 
 @app.route('/hello')
@@ -92,7 +93,7 @@ def rechange():
         current_user.password = str(form.newpassword.data)
         db.session.add(current_user)
         db.session.commit()
-        flash('Your password has been rechanged')
+        flash('修改成功')
         return redirect(url_for('hello'))
     return render_template('rechange.html',
         title = 'Sign Up',
